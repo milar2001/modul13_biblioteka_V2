@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ book.title }}</h2>
+<p>Autor: {{ book.author.name }}</p>
+
+{% if book.borrowed %}
+    <h3>Szczegóły wypożyczenia:</h3>
+    <p>Wypożyczył(a): {{ book.borrow_details.borrower_name }}</p>
+    <p>Data wypożyczenia: {{ book.borrow_details.borrowed_date }}</p>
+    {% if book.borrow_details.returned_date %}
+        <p>Data zwrotu: {{ book.borrow_details.returned_date }}</p>
+    {% else %}
+        <form method="POST" action="{{ url_for('return_book', book_id=book.id) }}">
+            <input type="submit" value="Zwróć książkę">
+        </form>
+    {% endif %}
+{% else %}
+    <p>Dostępna</p>
+{% endif %}
+{% endblock %}

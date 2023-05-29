@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Lista książek</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Tytuł</th>
+            <th>Autor</th>
+            <th>Status</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author.name }}</td>
+            <td>{% if not book.borrowed %}Dostępna{% else %}Wypożyczona{% endif %}</td>
+            <td>
+                {% if not book.borrowed %}
+                <form method="POST" action="/">
+                    <input type="hidden" name="book_id" value="{{ book.id }}">
+                    <input type="text" name="borrower_name" placeholder="Twoje imię" required>
+                    <input type="submit" value="Wypożycz">
+                </form>
+                {% else %}
+                <p>Wypożyczona</p>
+                {% endif %}
+                <a href="{{ url_for('book_details', book_id=book.id) }}">Szczegóły</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('add_book') }}">Dodaj nową książkę</a>
+{% endblock %}

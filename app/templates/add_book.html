@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Dodaj nową książkę</h1>
+
+<form method="POST" action="{{ url_for('add_book') }}">
+    {{ form.csrf_token }}
+
+    <div>
+        {{ form.book_title.label }}: {{ form.book_title() }}
+        {% if form.book_title.errors %}
+        <ul>
+            {% for error in form.book_title.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
+    <div>
+        {{ form.author.label }}: {{ form.author() }}
+        {% if form.author.errors %}
+        <ul>
+            {% for error in form.author.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
+    {{ form.submit() }}
+</form>
+{% endblock %}
